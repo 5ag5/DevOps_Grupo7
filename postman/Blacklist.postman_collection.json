@@ -1,0 +1,118 @@
+{
+  "info": {
+    "name": "DevOps Grupo7 - Blacklist",
+    "description": "Microservicio de lista negra global de emails.\n\nAntes de usar: en la pestaña Variables de la colección, poner el token real en el campo Current value de `token` (no se sube a GitHub).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5000" },
+    { "key": "token", "value": "CAMBIAR_POR_TOKEN" },
+    { "key": "app_uuid", "value": "123e4567-e89b-12d3-a456-426614174000" },
+    { "key": "email", "value": "prueba@correo.com" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));"
+      ] } }]
+    },
+    {
+      "name": "POST - Agregar email (201)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{email}}\",\n  \"app_uuid\": \"{{app_uuid}}\",\n  \"blocked_reason\": \"spam\"\n}" },
+        "url": { "raw": "{{base_url}}/blacklists", "host": ["{{base_url}}"], "path": ["blacklists"] }
+      },
+      "event": [{ "listen": "prerequest", "script": { "exec": [
+        "// Email único por ejecución para que la colección se pueda correr varias veces",
+        "pm.collectionVariables.set('email', `prueba_${Date.now()}@correo.com`);"
+      ] } }, { "listen": "test", "script": { "exec": [
+        "pm.test('201 Created', () => pm.response.to.have.status(201));",
+        "pm.test('Guarda IP y fecha', () => {",
+        "  const b = pm.response.json().blacklist;",
+        "  pm.expect(b.ip_address).to.be.a('string');",
+        "  pm.expect(b.created_at).to.be.a('string');",
+        "});"
+      ] } }]
+    },
+    {
+      "name": "POST - Email duplicado (409)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{email}}\",\n  \"app_uuid\": \"{{app_uuid}}\"\n}" },
+        "url": { "raw": "{{base_url}}/blacklists", "host": ["{{base_url}}"], "path": ["blacklists"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('409 Conflict', () => pm.response.to.have.status(409));"
+      ] } }]
+    },
+    {
+      "name": "POST - Datos inválidos (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"no-es-email\",\n  \"app_uuid\": \"abc\"\n}" },
+        "url": { "raw": "{{base_url}}/blacklists", "host": ["{{base_url}}"], "path": ["blacklists"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+      ] } }]
+    },
+    {
+      "name": "GET - Email en lista negra (true)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/blacklists/{{email}}", "host": ["{{base_url}}"], "path": ["blacklists", "{{email}}"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));",
+        "pm.test('is_blacklisted = true', () => pm.expect(pm.response.json().is_blacklisted).to.eql(true));"
+      ] } }]
+    },
+    {
+      "name": "GET - Email no registrado (false)",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/blacklists/libre@correo.com", "host": ["{{base_url}}"], "path": ["blacklists", "libre@correo.com"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200 OK', () => pm.response.to.have.status(200));",
+        "pm.test('is_blacklisted = false', () => pm.expect(pm.response.json().is_blacklisted).to.eql(false));"
+      ] } }]
+    },
+    {
+      "name": "GET - Sin token (401)",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/blacklists/{{email}}", "host": ["{{base_url}}"], "path": ["blacklists", "{{email}}"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"
+      ] } }]
+    },
+    {
+      "name": "GET - Token inválido (403)",
+      "request": {
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "token-malo", "type": "string" }] },
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/blacklists/{{email}}", "host": ["{{base_url}}"], "path": ["blacklists", "{{email}}"] }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('403 Forbidden', () => pm.response.to.have.status(403));"
+      ] } }]
+    }
+  ]
+}
