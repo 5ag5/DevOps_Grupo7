@@ -1,0 +1,21 @@
+# Copie este archivo como terraform.tfvars y cambie los valores.
+# terraform.tfvars NO se sube a GitHub.
+
+region = "us-east-2"
+
+db_password  = "CambieEstaClave123"
+static_token = "cambiar-por-un-token-secreto"
+
+# Alerta de gasto por correo (recomendado). Deje "" para no crearla.
+budget_email     = ""
+budget_limit_usd = 10
+
+# dev: pocas instancias para probar rapido
+min_instances     = 1
+max_instances     = 2
+deployment_policy = "AllAtOnce"
+
+# Si ya tiene roles creados a mano y prefiere usarlos:
+# create_iam_roles      = false
+# service_role_name     = "aws-elasticbeanstalk-service-role"
+# instance_profile_name = "Instance_Profile_EC2"
