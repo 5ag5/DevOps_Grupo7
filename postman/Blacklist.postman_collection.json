@@ -9,7 +9,7 @@
     "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
   },
   "variable": [
-    { "key": "base_url", "value": "http://localhost:5000" },
+    { "key": "base_url", "value": "http://localhost:8000" },
     { "key": "token", "value": "CAMBIAR_POR_TOKEN" },
     { "key": "app_uuid", "value": "123e4567-e89b-12d3-a456-426614174000" },
     { "key": "email", "value": "prueba@correo.com" }
