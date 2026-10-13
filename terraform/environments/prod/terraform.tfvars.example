@@ -1,0 +1,29 @@
+# Copie este archivo como terraform.tfvars y cambie los valores.
+# terraform.tfvars NO se sube a GitHub.
+
+region = "us-east-2"
+
+db_password  = "CambieEstaClave123"
+static_token = "cambiar-por-un-token-secreto"
+
+# Alerta de gasto por correo (recomendado). Deje "" para no crearla.
+budget_email     = ""
+budget_limit_usd = 20
+
+# prod: Auto Scaling de 3 a 6 instancias para las estrategias de despliegue
+min_instances = 3
+max_instances = 6
+
+# Estrategia: AllAtOnce | Rolling | RollingWithAdditionalBatch | Immutable | TrafficSplitting
+deployment_policy = "Rolling"
+batch_size_type   = "Fixed"
+batch_size        = 1
+
+# Solo para TrafficSplitting
+traffic_split_percent            = 20
+traffic_split_evaluation_minutes = 5
+
+# Si ya tiene roles creados a mano y prefiere usarlos:
+# create_iam_roles      = false
+# service_role_name     = "aws-elasticbeanstalk-service-role"
+# instance_profile_name = "Instance_Profile_EC2"

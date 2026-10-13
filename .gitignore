@@ -16,3 +16,15 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
+
+#Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform.tfvars
+crash.log
+
+# Paquete de despliegue (lo genera infra/scripts/empaquetar)
+blacklist.zip
+*.zip
