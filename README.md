@@ -31,7 +31,7 @@ pip install -r requirements.txt
 $env:DATABASE_URL="postgresql://usuario:password@localhost:5432/blacklist_db"
 $env:STATIC_TOKEN="mi-token-secreto"
 
-python application.py           # http://localhost:5000
+python application.py           # http://localhost:8000
 ```
 
 Si no se define `DATABASE_URL`, se usa un SQLite local (`blacklist.db`) para desarrollo.
