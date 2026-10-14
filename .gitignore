@@ -13,9 +13,10 @@ __pycache__/
 *.db
 .pytest_cache/
 
-# IDE
+# IDE & OS
 .vscode/
 .idea/
+.DS_Store
 
 #Terraform
 **/.terraform/

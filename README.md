@@ -20,7 +20,27 @@ Request HTTP → api (controladores) → services (negocio) → repositories (da
 
 Cada capa solo llama a la siguiente; así el servicio puede probarse con un repositorio falso.
 
-## Ejecución local
+## Ejecución con Docker Compose (Recomendado)
+
+Para levantar la aplicación junto con PostgreSQL en contenedores:
+
+```bash
+# Iniciar servicios en segundo plano
+docker compose up -d --build
+
+# Ver estado de los contenedores
+docker compose ps
+
+# Ver logs
+docker compose logs -f
+
+# Detener los servicios
+docker compose down
+```
+
+La API estará disponible en `http://localhost:8000` y PostgreSQL en el puerto `5432`.
+
+## Ejecución local (sin Docker)
 
 ```bash
 python -m venv .venv
