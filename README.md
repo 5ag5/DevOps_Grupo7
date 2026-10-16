@@ -15,7 +15,7 @@ Request HTTP → api (controladores) → services (negocio) → repositories (da
 | `app/services/` | Reglas de negocio (normalizar email, evitar duplicados). No conoce HTTP |
 | `app/repositories/` | Único punto de acceso a la base de datos |
 | `app/models/` | Entidades SQLAlchemy |
-| `app/auth.py` | Validación del token Bearer |
+| `app/auth.py` | Configuración de Flask-JWT-Extended y respuestas 401/403 |
 | `app/config.py` | Configuración leída de variables de entorno |
 
 Cada capa solo llama a la siguiente; así el servicio puede probarse con un repositorio falso.
@@ -49,7 +49,7 @@ pip install -r requirements.txt
 
 # Variables de entorno (ver .env.example). PowerShell:
 $env:DATABASE_URL="postgresql://usuario:password@localhost:5432/blacklist_db"
-$env:STATIC_TOKEN="mi-token-secreto"
+$env:JWT_SECRET_KEY="mi-clave-secreta"
 
 python application.py           # http://localhost:8000
 ```
@@ -58,16 +58,26 @@ Si no se define `DATABASE_URL`, se usa un SQLite local (`blacklist.db`) para des
 
 ## Autorización
 
-Todos los endpoints de `/blacklists` exigen el encabezado:
+La autenticación usa **Flask-JWT-Extended**. Todos los endpoints de `/blacklists` exigen el encabezado:
 
 ```
-Authorization: Bearer <STATIC_TOKEN>
+Authorization: Bearer <JWT>
 ```
+
+El JWT se genera una vez con la misma `JWT_SECRET_KEY` configurada en el servidor
+(local, `.env` o `terraform.tfvars`):
+
+```powershell
+$env:JWT_SECRET_KEY="mi-clave-secreta"
+python generar_token.py          # imprime el token; cópielo en la variable `token` de Postman
+```
+
+El token no expira. Para invalidarlo, cambie `JWT_SECRET_KEY` en el servidor y genere uno nuevo.
 
 | Caso | Código |
 |------|--------|
 | Sin encabezado o formato incorrecto | 401 |
-| Token inválido | 403 |
+| Token inválido (mal formado o firmado con otra clave) | 403 |
 
 ## Endpoints
 
@@ -87,7 +97,7 @@ La IP de origen y la fecha/hora se guardan automáticamente.
 |--------|------|
 | 201 | Email agregado |
 | 400 | JSON inválido, email inválido, UUID inválido o `blocked_reason` > 255 |
-| 409 | El email ya está en la lista negra |
+| 409 | El email ya está en la lista negra (sin distinguir mayúsculas) |
 
 ### GET /blacklists/{email} — Consultar un email
 
