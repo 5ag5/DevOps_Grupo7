@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "DevOps Grupo7 - Blacklist",
-    "description": "# API de Lista Negra Global de Emails\n\nMicroservicio empresarial para la gestión centralizada y consulta de emails en lista negra.\n\n### Características Principales:\n* **Autenticación:** Requiere encabezado `Authorization: Bearer <JWT>` en endpoints protegidos. El JWT se genera con `python generar_token.py` usando la misma `JWT_SECRET_KEY` del servidor (Flask-JWT-Extended).\n* **Persistencia:** Base de datos relacional PostgreSQL desplegada sobre AWS RDS.\n* **Auditoría:** Registro automático de la dirección IP de origen y marca de tiempo UTC en cada bloqueo.\n\n### Configuración de Entorno:\nAsegúrese de activar el ambiente **Blacklist-AWS-Prod** (o definir `base_url` y `token`).",
+    "description": "# API de Lista Negra Global de Emails\n\nMicroservicio empresarial para la gestión centralizada y consulta de emails en lista negra.\n\n### Características Principales:\n* **Autenticación:** Requiere encabezado `Authorization: Bearer <JWT>` en endpoints protegidos. El JWT se genera con `python generar_token.py` usando la misma `JWT_SECRET_KEY` del servidor (Flask-JWT-Extended).\n* **Persistencia:** Base de datos relacional PostgreSQL desplegada sobre AWS RDS.\n* **Auditoría:** Registro automático de la dirección IP de origen y marca de tiempo UTC en cada bloqueo.\n\n### Configuración de Entorno:\nAsegúrese de activar el ambiente **Blacklist-Local** (para desarrollo local / Docker) o **Blacklist-AWS-Prod** (para despliegue en AWS), configurando la variable `token` con el JWT generado.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -21,7 +21,7 @@
     },
     {
       "key": "token",
-      "value": "CAMBIAR_POR_TOKEN"
+      "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3OTIxNTAxNzQsIm5iZiI6MTc5MjE1MDE3NCwianRpIjoiNDhkM2Y0YjQtMjY4Ny00MDIzLThlNDEtZmY3NDk3YmIxMzQ1IiwiaWRlbnRpdHkiOiJibGFja2xpc3QtY2xpZW50IiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.sJmedFxB7n6ffhcizXycfdNTs-ipDTlFvlwWo7hKDPQ"
     },
     {
       "key": "app_uuid",
@@ -460,7 +460,7 @@
             "{{email}}"
           ]
         },
-        "description": "Retorna 401 Unauthorized cuando no se envía el encabezado `Authorization: Bearer <TOKEN>` en la petición."
+        "description": "Retorna 401 Unauthorized cuando no se envía el encabezado `Authorization: Bearer <JWT>` en la petición."
       },
       "event": [
         {
@@ -490,7 +490,7 @@
                 "{{email}}"
               ]
             },
-            "description": "Retorna 401 Unauthorized cuando no se envía el encabezado `Authorization: Bearer <TOKEN>` en la petición."
+            "description": "Retorna 401 Unauthorized cuando no se envía el encabezado `Authorization: Bearer <JWT>` en la petición."
           },
           "status": "Unauthorized",
           "code": 401,

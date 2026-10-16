@@ -26,6 +26,6 @@ __pycache__/
 terraform.tfvars
 crash.log
 
-# Paquete de despliegue (lo genera infra/scripts/empaquetar)
+# Paquete de despliegue (lo genera terraform/scripts/empaquetar)
 blacklist.zip
 *.zip
