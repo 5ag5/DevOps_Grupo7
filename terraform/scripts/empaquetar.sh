@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Genera blacklist.zip en la raiz del repositorio con el codigo listo para Elastic Beanstalk.
-# Uso: bash infra/scripts/empaquetar.sh
+# Uso: bash terraform/scripts/empaquetar.sh
 set -euo pipefail
 
 cd "$(dirname "$0")/../.."

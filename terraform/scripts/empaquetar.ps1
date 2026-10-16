@@ -1,5 +1,5 @@
 # Genera blacklist.zip en la raiz del repositorio con el codigo listo para Elastic Beanstalk.
-# Uso (desde cualquier carpeta):  powershell -ExecutionPolicy Bypass -File infra\scripts\empaquetar.ps1
+# Uso (desde cualquier carpeta):  powershell -ExecutionPolicy Bypass -File terraform\scripts\empaquetar.ps1
 #
 # Usa tar.exe (incluido en Windows 10/11) porque Compress-Archive de PowerShell 5
 # guarda las rutas con "\" y en Linux los archivos quedan con nombres rotos.
