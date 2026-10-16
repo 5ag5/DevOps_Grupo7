@@ -89,7 +89,7 @@ locals {
     { namespace = "aws:elasticbeanstalk:trafficsplitting", name = "EvaluationTime", value = tostring(var.traffic_split_evaluation_minutes) },
   ] : []
 
-  # Variables de entorno de la aplicacion (DATABASE_URL, STATIC_TOKEN, ...)
+  # Variables de entorno de la aplicacion (DATABASE_URL, JWT_SECRET_KEY, ...)
   env_var_settings = [
     for k in sort(keys(var.env_vars)) : {
       namespace = "aws:elasticbeanstalk:application:environment"

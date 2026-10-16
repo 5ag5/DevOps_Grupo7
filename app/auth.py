@@ -1,24 +1,33 @@
-import hmac
-from functools import wraps
-
-from flask import current_app, request
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended.exceptions import InvalidHeaderError
 
 
-def token_required(fn):
-    """Exige el encabezado 'Authorization: Bearer <token>' con el token estático."""
+def init_jwt(app):
+    """Configura Flask-JWT-Extended y sus respuestas de error.
 
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        auth_header = request.headers.get("Authorization", "")
-        scheme, _, token = auth_header.partition(" ")
+    Los endpoints protegidos usan @jwt_required. El token se genera con
+    generar_token.py usando el mismo JWT_SECRET_KEY del servidor.
+    """
+    jwt = JWTManager(app)
 
-        if scheme != "Bearer" or not token:
-            return {"msg": "Token de autorización no proporcionado"}, 401
+    # Sin encabezado Authorization
+    @jwt.unauthorized_loader
+    def missing_token(reason):
+        return {"msg": "Token de autorización no proporcionado"}, 401
 
-        expected = current_app.config.get("STATIC_TOKEN")
-        if not expected or not hmac.compare_digest(token.strip(), expected):
-            return {"msg": "Token de autorización inválido"}, 403
+    # Encabezado sin el formato "Bearer <token>": la librería lo trataría como
+    # token inválido (403), pero se responde 401 como falta de credenciales.
+    @app.errorhandler(InvalidHeaderError)
+    def bad_header(error):
+        return {"msg": "Token de autorización no proporcionado"}, 401
 
-        return fn(*args, **kwargs)
+    # Token mal formado o con firma que no corresponde al JWT_SECRET_KEY
+    @jwt.invalid_token_loader
+    def invalid_token(reason):
+        return {"msg": "Token de autorización inválido"}, 403
 
-    return wrapper
+    @jwt.expired_token_loader
+    def expired_token(expired_token):
+        return {"msg": "Token de autorización expirado"}, 403
+
+    return jwt

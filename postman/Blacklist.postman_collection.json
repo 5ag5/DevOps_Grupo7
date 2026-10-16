@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "DevOps Grupo7 - Blacklist",
-    "description": "# API de Lista Negra Global de Emails\n\nMicroservicio empresarial para la gestión centralizada y consulta de emails en lista negra.\n\n### Características Principales:\n* **Autenticación:** Requiere encabezado `Authorization: Bearer <STATIC_TOKEN>` en endpoints protegidos.\n* **Persistencia:** Base de datos relacional PostgreSQL desplegada sobre AWS RDS.\n* **Auditoría:** Registro automático de la dirección IP de origen y marca de tiempo UTC en cada bloqueo.\n\n### Configuración de Entorno:\nAsegúrese de activar el ambiente **Blacklist-AWS-Prod** (o definir `base_url` y `token`).",
+    "description": "# API de Lista Negra Global de Emails\n\nMicroservicio empresarial para la gestión centralizada y consulta de emails en lista negra.\n\n### Características Principales:\n* **Autenticación:** Requiere encabezado `Authorization: Bearer <JWT>` en endpoints protegidos. El JWT se genera con `python generar_token.py` usando la misma `JWT_SECRET_KEY` del servidor (Flask-JWT-Extended).\n* **Persistencia:** Base de datos relacional PostgreSQL desplegada sobre AWS RDS.\n* **Auditoría:** Registro automático de la dirección IP de origen y marca de tiempo UTC en cada bloqueo.\n\n### Configuración de Entorno:\nAsegúrese de activar el ambiente **Blacklist-AWS-Prod** (o definir `base_url` y `token`).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -529,7 +529,7 @@
             "{{email}}"
           ]
         },
-        "description": "Retorna 403 Forbidden cuando el Bearer token proporcionado no coincide con el token estático configurado en el servidor."
+        "description": "Retorna 403 Forbidden cuando el Bearer token proporcionado está mal formado o no fue firmado con la JWT_SECRET_KEY del servidor."
       },
       "event": [
         {
@@ -566,7 +566,7 @@
                 "{{email}}"
               ]
             },
-            "description": "Retorna 403 Forbidden cuando el Bearer token proporcionado no coincide con el token estático configurado en el servidor."
+            "description": "Retorna 403 Forbidden cuando el Bearer token proporcionado está mal formado o no fue firmado con la JWT_SECRET_KEY del servidor."
           },
           "status": "Forbidden",
           "code": 403,
