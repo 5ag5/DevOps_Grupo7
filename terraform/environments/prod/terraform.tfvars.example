@@ -4,7 +4,7 @@
 region = "us-east-2"
 
 db_password    = "CambieEstaClave123"
-jwt_secret_key = "cambiar-por-una-clave-secreta-larga"
+jwt_secret_key = "token_de_seguridad"
 
 # Alerta de gasto por correo (recomendado). Deje "" para no crearla.
 budget_email     = ""
