@@ -3,12 +3,12 @@
 
 region = "us-east-2"
 
-db_password  = "CambieEstaClave123"
-static_token = "cambiar-por-un-token-secreto"
+db_password    = "CambieEstaClave123"
+jwt_secret_key = "cambiar-por-una-clave-secreta-larga"
 
 # Alerta de gasto por correo (recomendado). Deje "" para no crearla.
 budget_email     = ""
-budget_limit_usd = 20
+budget_limit_usd = 10
 
 # prod: Auto Scaling de 3 a 6 instancias para las estrategias de despliegue
 min_instances = 3
