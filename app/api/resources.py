@@ -1,8 +1,8 @@
 from flask import request
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from marshmallow import ValidationError
 
-from ..auth import token_required
 from ..services import BlacklistService, EmailAlreadyBlacklisted
 from .schemas import BlacklistInputSchema, BlacklistSchema
 
@@ -20,7 +20,7 @@ def get_client_ip():
 
 
 class BlacklistListResource(Resource):
-    method_decorators = [token_required]
+    method_decorators = [jwt_required]
 
     def post(self):
         payload = request.get_json(silent=True)
@@ -49,7 +49,7 @@ class BlacklistListResource(Resource):
 
 
 class BlacklistResource(Resource):
-    method_decorators = [token_required]
+    method_decorators = [jwt_required]
 
     def get(self, email):
         entry = service.get_entry(email)

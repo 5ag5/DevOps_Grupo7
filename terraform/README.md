@@ -141,7 +141,7 @@ powershell -ExecutionPolicy Bypass -File terraform\scripts\empaquetar.ps1   # Ma
 
 # 2. Configurar y crear
 cd terraform\environments\dev  # o prod
-copy terraform.tfvars.example terraform.tfvars    # editar contraseña, token y correo
+copy terraform.tfvars.example terraform.tfvars    # editar contraseña, clave JWT y correo
 terraform init
 terraform apply
 ```
@@ -213,7 +213,7 @@ Borra Beanstalk, RDS, security groups, roles, bucket y alerta, en el orden corre
 
 - Cada integrante usa **su propia cuenta de AWS**, así que cada uno tiene su propio estado
   (`terraform.tfstate` dentro de cada entorno, que **no** se sube a GitHub).
-- No suba `terraform.tfvars`: tiene la contraseña de la base de datos y el token.
+- No suba `terraform.tfvars`: tiene la contraseña de la base de datos y la clave JWT.
 - Si borra `terraform.tfstate` con recursos creados, Terraform ya no los conoce:
   bórrelos a mano desde la consola.
 - En el `.gitignore` de la raíz del repositorio agregue `blacklist.zip`.

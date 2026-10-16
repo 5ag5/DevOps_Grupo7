@@ -4,6 +4,7 @@ from flask import Flask
 from sqlalchemy import text
 
 from .api import register_routes
+from .auth import init_jwt
 from .config import Config
 from .extensions import db, ma
 
@@ -18,6 +19,7 @@ def create_app(config_overrides=None):
 
     db.init_app(app)
     ma.init_app(app)
+    init_jwt(app)
     register_routes(app)
 
     @app.route("/health")

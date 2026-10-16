@@ -42,8 +42,8 @@ module "beanstalk" {
   instance_profile_name = module.iam.instance_profile_name
 
   env_vars = {
-    DATABASE_URL = module.rds.database_url
-    STATIC_TOKEN = var.static_token
+    DATABASE_URL   = module.rds.database_url
+    JWT_SECRET_KEY = var.jwt_secret_key
   }
 
   instance_type = var.instance_type

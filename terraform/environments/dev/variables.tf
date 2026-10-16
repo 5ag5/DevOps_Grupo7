@@ -34,8 +34,8 @@ variable "version_label" {
   default     = ""
 }
 
-variable "static_token" {
-  description = "Token para el encabezado Authorization: Bearer <token>"
+variable "jwt_secret_key" {
+  description = "Clave con la que Flask-JWT-Extended firma y valida los tokens"
   type        = string
   sensitive   = true
 }
