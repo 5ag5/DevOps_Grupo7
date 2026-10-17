@@ -107,19 +107,20 @@ El script imprimirá el token firmado. Cópielo en la variable `token` de su ent
 
 ## Pruebas y Colección de Postman
 
-El repositorio incluye una colección completa con assertions y entornos preconfigurados en la carpeta `postman/`:
+El repositorio incluye la documentación pública interactiva, una colección completa con assertions y entornos preconfigurados en la carpeta `postman/`:
 
+- **Documentación Pública en Postman:** [https://documenter.getpostman.com/view/58829140/2sBYHSwzie](https://documenter.getpostman.com/view/58829140/2sBYHSwzie)
 - **Colección:** `postman/Blacklist.postman_collection.json`
 - **Entorno Local / Docker:** `postman/Blacklist-Local.postman_environment.json` (`http://localhost:8000`)
 - **Entorno AWS Prod:** `postman/Blacklist-AWS-Prod.postman_environment.json` (`http://<URL_ELASTIC_BEANSTALK>`)
 
 ### Pasos rápidos para probar con Postman:
-1. Importe la colección `postman/Blacklist.postman_collection.json` y el entorno deseado.
+1. Importe la colección `postman/Blacklist.postman_collection.json` y el entorno deseado (o explore la [Documentación Pública en Postman](https://documenter.getpostman.com/view/58829140/2sBYHSwzie)).
 2. **Pruebas locales inmediatas (Evaluadores):** Si levantó el servicio con los valores por defecto (`JWT_SECRET_KEY="mi-clave-secreta"`), el entorno `Blacklist-Local` **ya incluye un token JWT pregenerado funcional**. ¡Puede ejecutar las pruebas directamente sin pasos extra!
 3. **Pruebas personalizadas o AWS:** Si cambió la clave o desplegó en AWS, genere un token con `generar_token.py` y péguelo en la variable `token`. Para AWS Prod, configure `base_url` con el valor de `terraform output app_url`.
 4. Ejecute la colección mediante **Collection Runner** o individualmente (todos los tests pasarán en verde).
 
-Para consultar la cadena del token pregenerado, detalle de assertions y ejecución vía CLI con Newman, consulte la [Guía de Postman](postman/README.md).
+Para consultar la cadena del token pregenerado, detalle de assertions, ejecución vía CLI con Newman y más detalles, consulte la [Guía de Postman](postman/README.md).
 
 ## Endpoints
 

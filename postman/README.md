@@ -2,12 +2,17 @@
 
 Este directorio contiene la colección de Postman y los entornos para probar y validar exhaustivamente el microservicio de lista negra global de emails.
 
+> 🌐 **Documentación Pública en Postman:**  
+> Puede consultar y explorar la documentación interactiva en línea de la API publicada a través de Postman Documenter en:  
+> [https://documenter.getpostman.com/view/58829140/2sBYHSwzie](https://documenter.getpostman.com/view/58829140/2sBYHSwzie)
+
 ---
 
-## Archivos en este directorio
+## Recursos y Archivos en este directorio
 
-| Archivo | Descripción |
-|---------|-------------|
+| Recurso / Archivo | Descripción |
+|-------------------|-------------|
+| [Documentación Pública Web](https://documenter.getpostman.com/view/58829140/2sBYHSwzie) | Documentación interactiva en línea generada con Postman Documenter con ejemplos y detalles de cada endpoint. |
 | `Blacklist.postman_collection.json` | Colección completa con todos los endpoints, encabezados de autorización Bearer JWT, ejemplos de respuesta y pruebas automatizadas (*assertions* en JavaScript). |
 | `Blacklist-Local.postman_environment.json` | Entorno configurado para ejecución local o con Docker Compose (`http://localhost:8000`). |
 | `Blacklist-AWS-Prod.postman_environment.json` | Entorno configurado para el despliegue en AWS Elastic Beanstalk (`app_url`). |
@@ -90,7 +95,7 @@ La colección está diseñada para ejecutarse secuencialmente y cubre todos los 
 
 1. **Importar los archivos en Postman**:
    - Abra Postman y haga clic en **Import** (arriba a la izquierda).
-   - Arrastre o seleccione `Blacklist.postman_collection.json`.
+   - Arrastre o seleccione `Blacklist.postman_collection.json` (o explore directamente la [Documentación Pública en Postman](https://documenter.getpostman.com/view/58829140/2sBYHSwzie)).
    - Arrastre o seleccione el entorno deseado:
      - `Blacklist-Local.postman_environment.json` (para pruebas locales / Docker).
      - `Blacklist-AWS-Prod.postman_environment.json` (para pruebas en AWS).
