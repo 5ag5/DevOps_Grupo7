@@ -1,19 +1,18 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
     runtime-versions:
       python: 3.12
     commands:
       - echo "Descargando Requerimientos"
       - pip install --upgrade pip
       - pip install -r requirements.txt
-  tests:
+  build:
     commands:
       - echo "Iniciando la ejecucción de pruebas unitarias"
       #- python -m pytest --junitxml=reports/pruebas.xml
       - echo "Pruebas superadas, se genera el artefacto"
-  build:
 
 reports:
   unit-tests:
