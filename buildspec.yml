@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Iniciando pre_build"
+      - pip install -r requirements.txt
+artifacts:
+  files:
+    - '**/*'
