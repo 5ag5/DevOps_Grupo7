@@ -15,3 +15,4 @@ click==7.1.2
 PyJWT==1.7.1
 psycopg2-binary==2.9.9
 gunicorn
+pytest

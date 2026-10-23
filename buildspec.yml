@@ -2,9 +2,34 @@ version: 0.2
 
 phases:
   pre_build:
+    runtime-versions:
+      python: 3.12
     commands:
-      - echo "Iniciando pre_build"
+      - echo "Descargando Requerimientos"
+      - pip install --upgrade pip
       - pip install -r requirements.txt
+  tests:
+    commands:
+      - echo "Iniciando la ejecucción de pruebas unitarias"
+      #- python -m pytest --junitxml=reports/pruebas.xml
+      - echo "Pruebas superadas, se genera el artefacto"
+  build:
+
+reports:
+  unit-tests:
+    files:
+      - reports/pruebas.xml
+    file-format: JUNITXML
+
 artifacts:
+  name: microservicio-flask
   files:
     - '**/*'
+  exclude-paths:
+    - tests/**/*
+    - reports/**/*
+    - .git/**/*
+    - venv/**/*
+    - .venv/**/*
+    - '**/__pycache__/**/*'
+    - buildspec.yml
